@@ -1,0 +1,19 @@
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "public_network"
+  config.vm.hostname = "cloudscene.devlocal"
+
+  # We use the already user ubuntu that ships with
+  # the ubuntu box.
+  config.vm.provision "shell", inline: <<-SHELL
+
+    # sudo without asking for password
+    sudo echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    
+    # ssh with key rather than password
+    sudo cp /home/vagrant/.ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+
+  SHELL
+
+end
